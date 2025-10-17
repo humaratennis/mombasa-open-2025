@@ -131,12 +131,12 @@
             margin-bottom: 20px;
         }
 
-        /* --- RESTORED MODERN CONTROLS STYLING (Search/Filter) --- */
+        /* --- CONTROLS STYLING --- */
         input[type="text"], select {
             width: 100%;
             padding: 10px;
             border: 1px solid #ced4da;
-            border-radius: 5px; /* Restored less aggressive rounding */
+            border-radius: 5px;
             margin-bottom: 0;
             box-sizing: border-box;
             transition: border-color 0.3s, box-shadow 0.3s;
@@ -147,10 +147,9 @@
         }
         input[type="text"]:focus, select:focus {
             border-color: var(--primary-color);
-            box-shadow: 0 0 0 2px rgba(0, 128, 0, 0.2); /* Subtle focus shadow */
+            box-shadow: 0 0 0 2px rgba(0, 128, 0, 0.2);
             outline: none;
         }
-        /* Custom down arrow for select element */
         select {
             background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='%23008000' d='M7.41 8.59L12 13.17l4.59-4.58L18 10l-6 6-6-6z'/%3E%3C/svg%3E");
             background-repeat: no-repeat;
@@ -179,12 +178,11 @@
             margin-bottom: 10px;
         }
 
-
-        /* --- RESTORED MODERN TABLE STYLING --- */
+        /* --- ORDER OF PLAY TABLE STYLING --- */
         .schedule-table {
             width: 100%;
             border-collapse: separate;
-            border-spacing: 0 5px; /* Key for separated, modern rows */
+            border-spacing: 0 5px;
             background-color: var(--card-background);
             border-radius: 8px;
             overflow: hidden;
@@ -198,17 +196,15 @@
             top: 0;
             text-transform: uppercase;
             letter-spacing: 0.5px;
-            border-radius: 0;
         }
         .schedule-table tbody tr {
             background-color: #f1f9f1;
-            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05); /* Lighter shadow */
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
             transition: background-color 0.2s;
             border-radius: 4px;
         }
         .schedule-table tbody tr:hover {
-            background-color: #e6ffe6; /* Gentle hover effect */
-            transform: none;
+            background-color: #e6ffe6;
             box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
         }
         .schedule-table td {
@@ -220,7 +216,7 @@
         .schedule-table td:nth-child(1) { font-weight: 700; color: var(--primary-color); }
         .schedule-table td:nth-child(3) { font-weight: 600; color: var(--accent-color); }
 
-        /* --- RESTORED PAGINATION STYLING --- */
+        /* --- PAGINATION STYLING --- */
         .pagination {
             display: flex;
             justify-content: center;
@@ -258,45 +254,64 @@
             background-color: transparent;
         }
 
-
-        /* --- RESPONSIVENESS (Mobile Adapters) --- */
+        /* --- RESPONSIVENESS (Mobile Optimizations) --- */
         @media (max-width: 991px) {
-            .header-content {
-                flex-direction: column;
-                padding: 10px 15px;
-            }
-            .logo {
-                width: 100%;
-                justify-content: center;
-                margin-bottom: 10px;
-            }
-            .logo img {
-                height: 30px;
-            }
-            .logo-text {
-                /* New class added to the logo text to control its display */
-                display: none; 
-            }
-            .logo::after {
-                content: "Mombasa Open"; 
-                font-size: 1.2rem;
-            }
-            nav {
-                width: 100%;
-                justify-content: space-around;
-            }
-            nav button {
-                flex-grow: 1; 
-                font-size: 0.9rem;
-                padding: 10px 5px;
-            }
-            
-            /* Hide vertical ad on small screens */
+            /* Responsive Menu (Retained) */
+            .header-content { flex-direction: column; padding: 10px 15px; }
+            .logo { width: 100%; justify-content: center; margin-bottom: 10px; }
+            .logo img { height: 30px; }
+            .logo-text { display: none; }
+            .logo::after { content: "Mombasa Open"; font-size: 1.2rem; }
+            nav { width: 100%; justify-content: space-around; }
+            nav button { flex-grow: 1; font-size: 0.9rem; padding: 10px 5px; }
             .content-side { display: none; }
-            .container { 
-                grid-template-columns: 1fr;
+            .container { grid-template-columns: 1fr; }
+        }
+
+        /* --- NEW: MOBILE TABLE OPTIMIZATION FOR ORDER OF PLAY (BELOW 600px) --- */
+        @media (max-width: 600px) {
+            .schedule-table th, .schedule-table td {
+                padding: 8px 5px; /* Reduce padding overall */
+                font-size: 0.75rem; /* Make text smaller */
+            }
+
+            /* 1. Hide Round # */
+            .schedule-table th:nth-child(1),
+            .schedule-table td:nth-child(1) {
+                display: none;
+            }
+
+            /* 2. Reduce width of Court, Pool, Score P1, Score P2 */
+            .schedule-table th:nth-child(2), /* Court */
+            .schedule-table td:nth-child(2) {
+                width: 10%; 
+                min-width: 40px;
+            }
+            .schedule-table th:nth-child(3), /* Pool */
+            .schedule-table td:nth-child(3) {
+                width: 15%; 
+                min-width: 50px;
+            }
+            .schedule-table th:nth-child(6), /* Score P1 */
+            .schedule-table td:nth-child(6) {
+                width: 10%; 
+                min-width: 40px;
+            }
+            .schedule-table th:nth-child(7), /* Score P2 */
+            .schedule-table td:nth-child(7) {
+                width: 10%; 
+                min-width: 40px;
+            }
+
+            /* Allow Player 1 and Player 2 to fill remaining space */
+            .schedule-table th:nth-child(4),
+            .schedule-table td:nth-child(4),
+            .schedule-table th:nth-child(5),
+            .schedule-table td:nth-child(5) {
+                width: 27.5%; /* Distribute remaining space */
             }
         }
+        
         @media (min-width: 992px) {
             .container {
                 display: grid;
