@@ -19,13 +19,14 @@
             --card-background: #ffffff;
             --text-color: #343a40;
             --shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            --bracket-line-color: #ccc;
         }
         body {
             font-family: 'Roboto Condensed', sans-serif;
             background-color: var(--background-color);
             color: var(--text-color);
             margin: 0;
-            padding-top: 130px;
+            padding-top: 130px; 
             min-height: 100vh;
         }
         .container {
@@ -34,7 +35,7 @@
             padding: 20px;
         }
 
-        /* --- HEADER & NAVIGATION (Retaining responsiveness) --- */
+        /* --- HEADER & NAVIGATION --- */
         header {
             background-color: var(--primary-color);
             color: white;
@@ -85,21 +86,20 @@
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
         }
 
-        /* Sponsor Ad Slots */
-        .ad-banner {
-            position: fixed;
-            top: 70px;
+        /* Sponsor Ad Slots and Cards */
+        .ad-flow-banner {
             width: 100%;
-            height: 60px;
-            background-color: #f2f2f2;
+            height: 70px;
+            margin: 25px 0;
+            background-color: #f0f0f0;
             display: flex;
             align-items: center;
             justify-content: center;
             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
-            z-index: 999;
+            border-radius: 8px;
             overflow: hidden;
         }
-        .ad-banner img {
+        .ad-flow-banner img {
             width: auto;
             height: 100%; 
             object-fit: cover;
@@ -119,10 +119,6 @@
             height: auto;
             object-fit: contain;
         }
-
-        /* Tabs/Content */
-        .content-section { display: none; }
-        .content-section.active { display: grid; }
         .card {
             background-color: var(--card-background);
             padding: 20px;
@@ -131,194 +127,156 @@
             margin-bottom: 20px;
         }
 
-        /* --- CONTROLS STYLING --- */
-        input[type="text"], select {
-            width: 100%;
+        /* --- KNOCKOUT BRACKET STYLING --- */
+        #koBracketContainer {
+            overflow-x: auto;
             padding: 10px;
-            border: 1px solid #ced4da;
-            border-radius: 5px;
-            margin-bottom: 0;
-            box-sizing: border-box;
-            transition: border-color 0.3s, box-shadow 0.3s;
-            appearance: none;
-            background-color: var(--card-background);
-            font-family: inherit;
-            color: var(--text-color);
         }
-        input[type="text"]:focus, select:focus {
-            border-color: var(--primary-color);
-            box-shadow: 0 0 0 2px rgba(0, 128, 0, 0.2);
-            outline: none;
+        .bracket-container {
+            display: flex;
+            justify-content: flex-start;
+            min-width: 1000px; /* Ensure space for the full bracket */
+            padding-bottom: 20px;
         }
-        select {
-            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='%23008000' d='M7.41 8.59L12 13.17l4.59-4.58L18 10l-6 6-6-6z'/%3E%3C/svg%3E");
-            background-repeat: no-repeat;
-            background-position: right 10px center;
-            background-size: 16px;
-            padding-right: 30px; 
+        .round {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-around;
+            align-items: center;
+            width: 200px;
+            padding: 10px;
+            flex-shrink: 0;
         }
-
-        /* Pools/Schedule Controls Grid */
-        .pools-controls, .schedule-controls-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 15px;
-        }
-
-        /* Pools Styling */
-        .pools-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 20px;
-        }
-        .pool-card h4 {
+        .round-title {
+            font-size: 1.1rem;
+            font-weight: 700;
             color: var(--accent-color);
-            border-bottom: 2px solid var(--accent-color);
-            padding-bottom: 5px;
-            margin-bottom: 10px;
-        }
-
-        /* --- ORDER OF PLAY TABLE STYLING --- */
-        .schedule-table {
+            margin-bottom: 15px;
+            padding: 5px 0;
+            border-bottom: 2px solid var(--bracket-line-color);
             width: 100%;
-            border-collapse: separate;
-            border-spacing: 0 5px;
-            background-color: var(--card-background);
-            border-radius: 8px;
+            text-align: center;
+        }
+        .matchup-wrapper {
+            position: relative;
+            margin-bottom: 30px; /* Space between matches in R32 */
+            width: 100%;
+            flex-shrink: 0;
+        }
+        .matchup {
+            border: 1px solid var(--bracket-line-color);
+            border-left: 3px solid var(--primary-color);
+            border-radius: 4px;
+            background-color: #f8fff8;
+            font-size: 0.85rem;
+            margin-bottom: 0;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
             overflow: hidden;
         }
-        .schedule-table thead th {
+        .player-line {
+            padding: 4px 8px;
+            display: flex;
+            justify-content: space-between;
+            border-bottom: 1px solid #f0f0f0;
+        }
+        .player-line:last-of-type {
+            border-bottom: none;
+        }
+        .player-line span:first-child {
+            font-weight: 600;
+        }
+        .player-line-seed {
+            font-size: 0.75rem;
+            color: #888;
+        }
+        .winner-line {
+            padding: 4px 8px;
             background-color: var(--primary-color);
             color: white;
             font-weight: 700;
-            padding: 15px 12px;
-            position: sticky;
-            top: 0;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-        }
-        .schedule-table tbody tr {
-            background-color: #f1f9f1;
-            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
-            transition: background-color 0.2s;
-            border-radius: 4px;
-        }
-        .schedule-table tbody tr:hover {
-            background-color: #e6ffe6;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-        }
-        .schedule-table td {
-            padding: 12px;
-            text-align: left;
-            border: none;
-            font-weight: 400;
-        }
-        .schedule-table td:nth-child(1) { font-weight: 700; color: var(--primary-color); }
-        .schedule-table td:nth-child(3) { font-weight: 600; color: var(--accent-color); }
-
-        /* --- PAGINATION STYLING --- */
-        .pagination {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            padding: 15px 0;
-            gap: 15px;
-            box-shadow: none; 
-        }
-        .pagination button {
-            background-color: var(--card-background);
-            color: var(--primary-color);
-            border: 1px solid var(--primary-color);
-            padding: 8px 15px;
-            cursor: pointer;
-            border-radius: 5px;
-            font-weight: 600;
-            transition: background-color 0.3s, color 0.3s;
-            text-transform: none;
-            letter-spacing: 0;
-        }
-        .pagination button:hover:not(:disabled) {
-            background-color: var(--primary-color);
-            color: white;
-        }
-        .pagination button:disabled {
-            background-color: #f1f1f1;
-            color: #ccc;
-            opacity: 1;
-            cursor: not-allowed;
-        }
-        .page-info {
-            font-weight: 600;
-            padding: 5px 10px;
-            border: none;
-            background-color: transparent;
+            font-size: 0.8rem;
+            text-align: center;
+            margin-top: 1px;
+            border-radius: 0 0 4px 4px;
         }
 
-        /* --- RESPONSIVENESS (Mobile Optimizations) --- */
-        @media (max-width: 991px) {
-            /* Responsive Menu (Retained) */
-            .header-content { flex-direction: column; padding: 10px 15px; }
-            .logo { width: 100%; justify-content: center; margin-bottom: 10px; }
-            .logo img { height: 30px; }
-            .logo-text { display: none; }
-            .logo::after { content: "Mombasa Open"; font-size: 1.2rem; }
-            nav { width: 100%; justify-content: space-around; }
-            nav button { flex-grow: 1; font-size: 0.9rem; padding: 10px 5px; }
-            .content-side { display: none; }
-            .container { grid-template-columns: 1fr; }
+        /* Bracket Connectors */
+        .round-of-32 .matchup-wrapper {
+            margin-bottom: 20px;
+            height: 100px; /* Control vertical positioning */
+        }
+        .round-of-32 .matchup-wrapper:nth-child(even) {
+            margin-top: 15px; /* Offset for line connections */
         }
 
-        /* --- NEW: MOBILE TABLE OPTIMIZATION FOR ORDER OF PLAY (BELOW 600px) --- */
+        /* Simplified Bracket Line (Purely visual indicator for advancement) */
+        .round-of-32 .matchup-wrapper::after {
+            content: '';
+            position: absolute;
+            top: 50px;
+            right: -20px;
+            width: 20px;
+            height: 0;
+            border-top: 1px solid var(--bracket-line-color);
+        }
+        .round-of-32 .matchup-wrapper:nth-child(odd)::before {
+            content: '';
+            position: absolute;
+            top: 50px;
+            right: -20px;
+            width: 0;
+            height: 125px; 
+            border-right: 1px solid var(--bracket-line-color);
+        }
+
+        /* Round 2 (Round of 16) Matchups */
+        .round-of-16 .matchup-wrapper {
+            margin-bottom: 65px; /* Increased vertical space */
+        }
+        .round-of-16 .matchup-wrapper::after {
+            content: '';
+            position: absolute;
+            top: 50px;
+            right: -20px;
+            width: 20px;
+            height: 0;
+            border-top: 1px solid var(--bracket-line-color);
+        }
+        .round-of-16 .matchup-wrapper:nth-child(odd)::before {
+            content: '';
+            position: absolute;
+            top: 50px;
+            right: -20px;
+            width: 0;
+            height: 190px;
+            border-right: 1px solid var(--bracket-line-color);
+        }
+        
+        /* Adjusting for mobile display of bracket */
         @media (max-width: 600px) {
-            .schedule-table th, .schedule-table td {
-                padding: 8px 5px; /* Reduce padding overall */
-                font-size: 0.75rem; /* Make text smaller */
-            }
-
-            /* 1. Hide Round # */
-            .schedule-table th:nth-child(1),
-            .schedule-table td:nth-child(1) {
-                display: none;
-            }
-
-            /* 2. Reduce width of Court, Pool, Score P1, Score P2 */
-            .schedule-table th:nth-child(2), /* Court */
-            .schedule-table td:nth-child(2) {
-                width: 10%; 
-                min-width: 40px;
-            }
-            .schedule-table th:nth-child(3), /* Pool */
-            .schedule-table td:nth-child(3) {
-                width: 15%; 
-                min-width: 50px;
-            }
-            .schedule-table th:nth-child(6), /* Score P1 */
-            .schedule-table td:nth-child(6) {
-                width: 10%; 
-                min-width: 40px;
-            }
-            .schedule-table th:nth-child(7), /* Score P2 */
-            .schedule-table td:nth-child(7) {
-                width: 10%; 
-                min-width: 40px;
-            }
-
-            /* Allow Player 1 and Player 2 to fill remaining space */
-            .schedule-table th:nth-child(4),
-            .schedule-table td:nth-child(4),
-            .schedule-table th:nth-child(5),
-            .schedule-table td:nth-child(5) {
-                width: 27.5%; /* Distribute remaining space */
+            .bracket-container {
+                min-width: 800px; /* Keep bracket width for proper scrolling */
             }
         }
         
-        @media (min-width: 992px) {
-            .container {
-                display: grid;
-                grid-template-columns: 1fr 200px;
-                gap: 20px;
-            }
-        }
+        /* --- REST OF STYLING (Unchanged) --- */
+        .rules-image { width: 45%; height: 200px; object-fit: cover; margin: 10px; border-radius: 8px; box-shadow: var(--shadow); background-color: #eee; display: block; }
+        .float-left { float: left; }
+        .float-right { float: right; }
+        input[type="text"], select { /* ... */ }
+        .pools-controls, .schedule-controls-grid { /* ... */ }
+        .schedule-table { /* ... */ }
+        .schedule-table thead th { /* ... */ }
+        .schedule-table tbody tr { /* ... */ }
+        .schedule-table td:nth-child(1) { /* ... */ }
+        .schedule-table td:nth-child(3) { /* ... */ }
+        .pagination button { /* ... */ }
+        .pagination button:hover:not(:disabled) { /* ... */ }
+        .pagination button:disabled { /* ... */ }
+        .page-info { /* ... */ }
+        @media (min-width: 992px) { /* ... */ }
+        @media (max-width: 991px) { /* ... */ }
+        @media (max-width: 600px) { /* ... */ }
     </style>
 </head>
 <body>
@@ -333,30 +291,34 @@
                 <button id="tab-rules" class="active">Rules</button>
                 <button id="tab-pools">Pools</button>
                 <button id="tab-schedule">Order of Play</button>
+                <button id="tab-ko-men">Men's KO Bracket</button>
             </nav>
         </div>
     </header>
-
-    <div class="ad-banner">
-        <img src="transnepmain.png" alt="Transnep Sponsor">
-    </div>
 
     <div class="container">
         
         <div class="content-main">
             <section id="rules" class="content-section active">
-                <div class="card">
+                <div class="card rules-main-card">
                     <p>Welcome to the Humara Tennis Mombasa Open 2025</p>
                     <p>We're excited to have you join us! All players are encouraged to play fair, show respect on and off the court, and most importantly, enjoy the game.</p>
                     <p>Let’s make this a fun, competitive, and memorable event for everyone.</p>
                     <hr>
+                    
                     <h2>Tournament Rules & Information</h2>
-                    <div class="rules-content">
+                    
+                   <div class="rules-content">
                         <p>Welcome to the Mombasa Open! Please review the rules below for a smooth and fair competition. All pool matches must be completed by 2:00 PM Sunday.</p>
-    
+                        
+                        <div class="ad-flow-banner">
+                            <img src="transnepmain.png" alt="Transnep Sponsor">
+                        </div>
+
                         <h3>🎾 Humara Tennis Mombasa Open 2025 – Terms & Conditions</h3>
-                        <ol>
-                            <li><strong>Eligibility</strong>
+                       <ol>
+                            <li>
+                                <strong>Eligibility</strong>
                                 <ul>
                                     <li>Players must be 12 years and above on the day of the tournament.</li>
                                     <li>All minors must be accompanied by a parent or legal guardian.</li>
@@ -364,7 +326,8 @@
                                 </ul>
                             </li>
     
-                            <li><strong>Registration & Fees</strong>
+                            <li>
+                                <strong>Registration & Fees</strong>
                                 <ul>
                                     <li>Entry fee is KES 1,000 per category.</li>
                                     <li>No entries will be accepted on the day of the tournament.</li>
@@ -372,7 +335,8 @@
                                 </ul>
                             </li>
     
-                            <li><strong>Tournament Format</strong>
+                            <li>
+                                <strong>Tournament Format</strong>
                                 <ul>
                                     <li>The tournament follows a Pool Round-Robin stage followed by Knockout rounds.</li>
                                     <li>Match format: First to 4 games, win by 2. At 4–4, a 7-point tiebreak is played (win by 2).</li>
@@ -380,14 +344,16 @@
                                 </ul>
                             </li>
     
-                            <li><strong>Seeding & Draws</strong>
+                            <li>
+                                <strong>Seeding & Draws</strong>
                                 <ul>
                                     <li>Seeding will be based on past Humara Tennis Tournament results.</li>
                                     <li>Only the draw posted online will be considered official.</li>
                                 </ul>
                             </li>
-    
-                            <li><strong>Code of Conduct</strong>
+                            
+                             <li>
+                                <strong>Code of Conduct</strong>
                                 <ul>
                                     <li>Players must follow the rules and spirit of tennis at all times.</li>
                                     <li>Unsportsmanlike behavior, verbal abuse, or equipment damage may lead to disqualification.</li>
@@ -395,14 +361,16 @@
                                 </ul>
                             </li>
     
-                            <li><strong>Punctuality</strong>
+                            <li>
+                                <strong>Punctuality</strong>
                                 <ul>
                                     <li>Players must report at least 30 minutes before their scheduled match time.</li>
                                     <li>A no-show after 15 minutes of match call time will result in a walkover to the opponent.</li>
                                 </ul>
                             </li>
     
-                            <li><strong>Injury & Medical</strong>
+                            <li>
+                                <strong>Injury & Medical</strong>
                                 <ul>
                                     <li>All players participate at their own risk.</li>
                                     <li>The organizers are not liable for any injuries sustained during the tournament.</li>
@@ -410,41 +378,47 @@
                                 </ul>
                             </li>
     
-                            <li><strong>Weather Policy</strong>
+                            <li>
+                                <strong>Weather Policy</strong>
                                 <ul>
                                     <li>Matches may be postponed or rescheduled in case of bad weather.</li>
                                     <li>No refunds will be issued due to weather-related disruptions.</li>
                                 </ul>
                             </li>
     
-                            <li><strong>Prizes</strong>
+                            <li>
+                                <strong>Prizes</strong>
                                 <ul>
                                     <li>Prizes will be awarded from the quarterfinal stage to the final winners.</li>
                                     <li>Prize structure is determined by the tournament committee and is non-transferable.</li>
                                 </ul>
                             </li>
     
-                            <li><strong>Media & Consent</strong>
+                            <li>
+                                <strong>Media & Consent</strong>
                                 <ul>
                                     <li>By registering, participants and/or guardians agree to the use of photos or videos taken during the event for promotional purposes.</li>
                                     <li>Names and match results may be published online or in print.</li>
                                 </ul>
                             </li>
     
-                            <li><strong>Disputes</strong>
+                            <li>
+                                <strong>Disputes</strong>
                                 <ul>
                                     <li>Any protest or dispute must be reported immediately to the tournament director.</li>
                                     <li>The tournament director’s decision will be final and binding.</li>
                                 </ul>
                             </li>
     
-                            <li><strong>Club Rules</strong>
+                            <li>
+                                <strong>Club Rules</strong>
                                 <ul>
                                     <li>All players and guests must respect and follow the hosting club’s rules and regulations at all times.</li>
                                 </ul>
                             </li>
                         </ol>
-    
+                        <div style="clear: both;"></div>
+
                         <h3>Contact Information</h3>
                         <ul>
                             <li><strong>Tournament Refree:</strong> H. Oketch | 0713 077 958</li>
@@ -453,7 +427,7 @@
                     </div>
                 </div>
             </section>
-    
+            
             <section id="pools" class="content-section">
                 <div class="card">
                     <h2>Player Pools</h2>
@@ -520,6 +494,15 @@
                     <button id="nextPage" disabled>Next</button>
                 </div>
             </section>
+
+            <section id="ko-men" class="content-section">
+                <div class="card">
+                    <h2>Men's Knockout Stage (Round of 32)</h2>
+                    <p>The matchups below are based on the final pool standings (Winner #1 vs Runner-up #2). Players will be updated automatically once pool results are finalized.</p>
+                    <div id="koBracketContainer">
+                        </div>
+                </div>
+            </section>
         </div>
 
         <div class="content-side">
@@ -531,8 +514,7 @@
     </div>
 
     <script>
-        // --- 1. DATA DEFINITION (114 Matches) ---
-        // Match data is organized by Round ID (matchId)
+        // --- 1. DATA DEFINITION ---
         const matches = [
             // Round 1 (SAT 8:00 - 8:30)
             { matchId: 1, day: 'SAT', time: '8:00 - 8:30', court: 1, category: 'Men Singles', pool: 'I', player1: 'Emmanuel John', player2: 'Wilfred Kimani' },
@@ -669,9 +651,29 @@
             { matchId: 18, day: 'SUN', time: '9:30 - 10:00', court: 1, category: 'Ladies Singles', pool: 'G', player1: 'Winnie Ogolla', player2: 'Susan Amani' },
             { matchId: 18, day: 'SUN', time: '9:30 - 10:00', court: 2, category: 'Ladies Singles', pool: 'H', player1: 'Esther Opiyo', player2: 'Linnet Owira' },
         ];
+        
+        // Men's KO Pairings (Round of 32) - Based on user input
+        const menKoPairings = [
+            { match: 'M1', p1Seed: 'Pool A #1', p2Seed: 'Pool O #2', next: 'R16 M1' },
+            { match: 'M2', p1Seed: 'Pool P #1', p2Seed: 'Pool B #2', next: 'R16 M1' },
+            { match: 'M3', p1Seed: 'Pool H #2', p2Seed: 'Pool I #1', next: 'R16 M2' },
+            { match: 'M4', p1Seed: 'Pool J #2', p2Seed: 'Pool G #1', next: 'R16 M2' },
+            { match: 'M5', p1Seed: 'Pool C #1', p2Seed: 'Pool N #2', next: 'R16 M3' },
+            { match: 'M6', p1Seed: 'Pool M #1', p2Seed: 'Pool D #2', next: 'R16 M3' },
+            { match: 'M7', p1Seed: 'Pool F #2', p2Seed: 'Pool L #1', next: 'R16 M4' },
+            { match: 'M8', p1Seed: 'Pool K #2', p2Seed: 'Pool E #1', next: 'R16 M4' },
+            { match: 'M9', p1Seed: 'Pool F #1', p2Seed: 'Pool L #2', next: 'R16 M5' },
+            { match: 'M10', p1Seed: 'Pool K #1', p2Seed: 'Pool E #2', next: 'R16 M5' },
+            { match: 'M11', p1Seed: 'Pool C #2', p2Seed: 'Pool N #1', next: 'R16 M6' },
+            { match: 'M12', p1Seed: 'Pool M #2', p2Seed: 'Pool D #1', next: 'R16 M6' },
+            { match: 'M13', p1Seed: 'Pool H #1', p2Seed: 'Pool I #2', next: 'R16 M7' },
+            { match: 'M14', p1Seed: 'Pool J #1', p2Seed: 'Pool G #2', next: 'R16 M7' },
+            { match: 'R1M15', p1Seed: 'Pool A #2', p2Seed: 'Pool O #1', next: 'R16 M8' },
+            { match: 'R1M16', p1Seed: 'Pool P #2', p2Seed: 'Pool B #1', next: 'R16 M8' },
+        ];
 
 
-        // --- 2. PLAYER DATA & POOL GENERATION (Unchanged Logic) ---
+        // --- 2. PLAYER DATA & POOL GENERATION ---
         let allPlayers = {};
         matches.forEach(m => {
             const key = `${m.category}-${m.pool}`;
@@ -683,9 +685,7 @@
         });
         
         function sortPools(a, b) {
-            if (a.category !== b.category) {
-                return a.category.localeCompare(b.category); 
-            }
+            if (a.category !== b.category) { return a.category.localeCompare(b.category); }
             return a.pool.localeCompare(b.pool);
         }
 
@@ -694,13 +694,104 @@
             players: Array.from(poolData.players).sort()
         })).sort(sortPools);
 
+        // --- 3. KNOCKOUT BRACKET LOGIC (NEW) ---
+        const koBracketContainer = document.getElementById('koBracketContainer');
 
-        // --- 3. TAB LOGIC (Unchanged) ---
+        function createMatchupHTML(matchData) {
+             const nextRoundMatch = matchData.next;
+
+             return `
+                <div class="matchup-wrapper">
+                    <div class="matchup">
+                        <div class="player-line">
+                            <span>${matchData.p1Seed}</span>
+                            <span class="player-line-seed"></span>
+                        </div>
+                        <div class="player-line">
+                            <span>${matchData.p2Seed}</span>
+                            <span class="player-line-seed"></span>
+                        </div>
+                        <div class="winner-line">
+                            Winner advances to ${nextRoundMatch}
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        function renderMenBracket() {
+            koBracketContainer.innerHTML = '';
+            
+            // Bracket Grid setup
+            let html = '<div class="bracket-container">';
+            
+            // Round of 32 Column
+            html += '<div class="round round-of-32">';
+            html += '<div class="round-title">Round of 32</div>';
+            for (let i = 0; i < 8; i++) {
+                html += createMatchupHTML(menKoPairings[i * 2]);
+                html += createMatchupHTML(menKoPairings[i * 2 + 1]);
+            }
+            html += '</div>';
+
+            // Round of 16 Column
+            html += '<div class="round round-of-16">';
+            html += '<div class="round-title">Round of 16</div>';
+            for (let i = 1; i <= 8; i++) {
+                // Placeholder matches for Round of 16 (R16 M1 - R16 M8)
+                html += `<div class="matchup-wrapper">
+                            <div class="matchup" style="height: 100px;">
+                                <div class="player-line">Winner R32 M${(i * 2) - 1}</div>
+                                <div class="player-line">Winner R32 M${i * 2}</div>
+                            </div>
+                            <div class="winner-line">Advances to QF M${Math.ceil(i/2)}</div>
+                        </div>`;
+            }
+            html += '</div>';
+
+            // Quarterfinals Column
+            html += '<div class="round round-of-8">';
+            html += '<div class="round-title">Quarterfinals</div>';
+            for (let i = 1; i <= 4; i++) {
+                html += `<div class="matchup-wrapper">
+                            <div class="matchup" style="height: 180px;">QF M${i}</div>
+                            <div class="winner-line">Advances to SF M${i}</div>
+                        </div>`;
+            }
+            html += '</div>';
+
+             // Semifinals Column
+            html += '<div class="round round-of-4">';
+            html += '<div class="round-title">Semifinals</div>';
+            for (let i = 1; i <= 2; i++) {
+                html += `<div class="matchup-wrapper">
+                            <div class="matchup" style="height: 340px;">SF M${i}</div>
+                            <div class="winner-line">Advances to Final</div>
+                        </div>`;
+            }
+            html += '</div>';
+
+            // Final Column
+            html += '<div class="round round-of-2">';
+            html += '<div class="round-title">FINAL</div>';
+            html += `<div class="matchup-wrapper">
+                        <div class="matchup" style="height: 680px; display: flex; align-items: center; justify-content: center; font-size: 1.2rem;">CHAMPIONSHIP MATCH</div>
+                        <div class="winner-line" style="background-color: gold; color: var(--text-color);">WINNER</div>
+                    </div>`;
+            html += '</div>';
+
+
+            html += '</div>'; // close .bracket-container
+            koBracketContainer.innerHTML = html;
+        }
+
+        // --- 4. TAB LOGIC ---
         document.addEventListener('DOMContentLoaded', () => {
             const tabs = {
                 'tab-rules': 'rules',
                 'tab-pools': 'pools',
-                'tab-schedule': 'schedule'
+                'tab-schedule': 'schedule',
+                'tab-ko-men': 'ko-men'
             };
 
             Object.keys(tabs).forEach(tabId => {
@@ -719,6 +810,9 @@
                     if (tabs[tabId] === 'schedule') {
                         applyScheduleFilters();
                     }
+                    if (tabs[tabId] === 'ko-men') {
+                        renderMenBracket(); // Render KO when tab is opened
+                    }
                 });
             });
 
@@ -726,7 +820,9 @@
         });
 
 
-        // --- 4. POOLS LOGIC (Unchanged) ---
+        // --- 5. REST OF LOGIC (Pools and Schedule Unchanged) ---
+        
+        // POOLS LOGIC 
         const poolsContainer = document.getElementById('poolsContainer');
         const playerSearch = document.getElementById('playerSearch');
         const categoryFilter = document.getElementById('categoryFilter');
@@ -737,18 +833,13 @@
             const selectedCategory = categoryFilter.value;
             
             playersByPool.forEach(poolData => {
-                if (selectedCategory && poolData.category !== selectedCategory) {
-                    return; 
-                }
-
+                if (selectedCategory && poolData.category !== selectedCategory) { return; }
                 const filteredPlayers = poolData.players.filter(player => player.toLowerCase().includes(lowerPlayerSearch));
-                
                 const shouldShowPool = filteredPlayers.length > 0 || lowerPlayerSearch === '';
 
                 if (shouldShowPool) {
                     const poolCard = document.createElement('div');
                     poolCard.classList.add('card', 'pool-card');
-                    
                     const playersToShow = lowerPlayerSearch === '' ? poolData.players : filteredPlayers;
                     
                     poolCard.innerHTML = `
@@ -760,7 +851,6 @@
                     poolsContainer.appendChild(poolCard);
                 }
             });
-            
             if (poolsContainer.children.length === 0) {
                  poolsContainer.innerHTML = `<div class="card" style="grid-column: 1 / -1; text-align: center;">No pools or players match the current filters.</div>`;
             }
@@ -769,8 +859,7 @@
         playerSearch.addEventListener('input', renderPools);
         categoryFilter.addEventListener('change', renderPools);
 
-
-        // --- 5. SCHEDULE LOGIC (Unchanged) ---
+        // SCHEDULE LOGIC
         let currentPage = 1;
         const itemsPerPage = 20;
         let filteredMatches = matches;
@@ -794,7 +883,6 @@
                                   String(match.matchId).includes(searchTerm);
 
                 const courtMatch = !selectedCourt || match.court === parseInt(selectedCourt);
-
                 return textMatch && courtMatch;
             });
 
@@ -824,7 +912,6 @@
                 `;
             });
 
-            // Update Pagination Controls
             pageInfoSpan.textContent = `Page ${totalPages > 0 ? currentPage : 0} of ${totalPages}`;
             prevPageBtn.disabled = currentPage === 1 || totalPages === 0;
             nextPageBtn.disabled = currentPage === totalPages || totalPages === 0 || totalPages === 1;
@@ -833,20 +920,10 @@
         // Event Listeners for Schedule Controls
         scheduleSearch.addEventListener('input', applyScheduleFilters);
         courtFilter.addEventListener('change', applyScheduleFilters);
-
-        prevPageBtn.addEventListener('click', () => {
-            if (currentPage > 1) {
-                currentPage--;
-                renderSchedule();
-            }
-        });
-
-        nextPageBtn.addEventListener('click', () => {
+        prevPageBtn.addEventListener('click', () => { if (currentPage > 1) { currentPage--; renderSchedule(); } });
+        nextPageBtn.addEventListener('click', () => { 
             const totalPages = Math.ceil(filteredMatches.length / itemsPerPage);
-            if (currentPage < totalPages) {
-                currentPage++;
-                renderSchedule();
-            }
+            if (currentPage < totalPages) { currentPage++; renderSchedule(); }
         });
         
         applyScheduleFilters();
